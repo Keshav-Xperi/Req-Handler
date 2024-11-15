@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';  // MUI imports
+import Header from './components/Header';
+import RequestForm from './components/RequestForm';
+import HistoryList from './components/HistoryList';
+import CollectionPage from './pages/CollectionPage';  // Assuming you have a CollectionPage component
+import { RequestProvider } from './context/RequestContext';
 
-function App() {
+const theme = createTheme({
+  // You can add custom theme settings here
+  palette: {
+    primary: {
+      main: '#00796b', // MUI primary color
+    },
+    secondary: {
+      main: '#c2185b', // MUI secondary color
+    },
+  },
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <RequestProvider>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<RequestForm />} />
+            <Route path="/history" element={<HistoryList />} />
+            <Route path="/collection" element={<CollectionPage />} />
+          </Routes>
+        </Router>
+      </RequestProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
